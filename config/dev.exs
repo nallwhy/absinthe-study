@@ -6,6 +6,7 @@ config :plate_slate, PlateSlate.Repo,
   password: "postgres",
   database: "plate_slate_dev",
   hostname: "localhost",
+  port: 45432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
