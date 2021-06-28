@@ -12,7 +12,6 @@ defmodule PlateSlateWeb.Schema.Query.MenuItemsTest do
     }
   }
   """
-
   test "menuItems field returns menu items" do
     conn = get(build_conn(), "/api", query: @query)
 
