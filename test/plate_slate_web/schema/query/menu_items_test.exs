@@ -81,6 +81,55 @@ defmodule PlateSlateWeb.Schema.Query.MenuItemsTest do
   query ($filter: MenuItemFilter!) {
     menuItems(filter: $filter) {
       name
+      addedOn
+    }
+  }
+  """
+  @variables %{"filter" => %{"addedBefore" => "2017-01-20"}}
+  test "menuItems filtered by custom scalar" do
+    sides = PlateSlate.Repo.get_by!(PlateSlate.Menu.Category, name: "Sides")
+
+    %PlateSlate.Menu.Item{
+      name: "Garlic Fries",
+      added_on: ~D[2017-01-01],
+      price: 2.50,
+      category: sides
+    }
+    |> PlateSlate.Repo.insert!()
+
+    response = post(build_conn(), "/api", query: @query, variables: @variables)
+
+    assert json_response(response, 200) == %{
+             "data" => %{"menuItems" => [%{"name" => "Garlic Fries", "addedOn" => "2017-01-01"}]}
+           }
+  end
+
+  @query """
+  query ($filter: MenuItemFilter!) {
+    menuItems(filter: $filter) {
+      name
+      addedOn
+    }
+  }
+  """
+  @variables %{"filter" => %{"addedBefore" => "not-a-date"}}
+  test "menuItems filtered by custom scalar with error" do
+    response = post(build_conn(), "/api", query: @query, variables: @variables)
+
+    assert %{"errors" => [%{"message" => message}]} = json_response(response, 200)
+
+    expected_message = """
+    Argument "filter" has invalid value $filter.
+    In field "addedBefore": Expected type "Date", found "not-a-date".\
+    """
+
+    assert message == expected_message
+  end
+
+  @query """
+  query ($filter: MenuItemFilter!) {
+    menuItems(filter: $filter) {
+      name
     }
   }
   """
