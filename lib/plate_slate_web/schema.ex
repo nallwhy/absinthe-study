@@ -5,6 +5,7 @@ defmodule PlateSlateWeb.Schema do
 
   query do
     import_fields(:menu_queries)
+    import_fields(:search_queries)
   end
 
   # Reimplementation of date of Absinthe.Type.Custom
