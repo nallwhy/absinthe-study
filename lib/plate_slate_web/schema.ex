@@ -8,6 +8,10 @@ defmodule PlateSlateWeb.Schema do
     import_fields(:search_queries)
   end
 
+  mutation do
+    import_fields(:menu_mutations)
+  end
+
   # Reimplementation of date of Absinthe.Type.Custom
   scalar :date do
     parse(fn input ->
