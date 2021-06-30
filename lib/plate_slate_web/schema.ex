@@ -13,6 +13,10 @@ defmodule PlateSlateWeb.Schema do
     import_fields(:ordering_mutations)
   end
 
+  subscription do
+    import_fields(:ordering_subscriptions)
+  end
+
   # Reimplementation of date of Absinthe.Type.Custom
   scalar :date do
     parse(fn input ->
