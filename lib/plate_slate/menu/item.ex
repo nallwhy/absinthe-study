@@ -8,6 +8,7 @@ defmodule PlateSlate.Menu.Item do
     field :description, :string
     field :name, :string
     field :price, :decimal
+    field :allergy_info, {:array, :map}
 
     belongs_to :category, Category
     many_to_many :tags, ItemTag, join_through: "items_taggings"

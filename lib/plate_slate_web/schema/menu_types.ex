@@ -55,6 +55,21 @@ defmodule PlateSlateWeb.Schema.MenuTypes do
     field :description, :string
     field :price, :decimal
     field :added_on, :date
+    field :allergy_info, list_of(:allergy_info)
+  end
+
+  object :allergy_info do
+    field :allergen, :string do
+      # resolve(fn parent, _, _ ->
+      #   {:ok, Map.get(parent, "allergen")}
+      # end)
+    end
+
+    field :severity, :string do
+      # resolve(fn parent, _, _ ->
+      #   {:ok, Map.get(parent, "severity")}
+      # end)
+    end
   end
 
   object :category do
