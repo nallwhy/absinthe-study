@@ -17,7 +17,7 @@ defmodule PlateSlateWeb.Schema do
     middleware
   end
 
-  import_types(__MODULE__.{MenuTypes, OrderingTypes})
+  import_types(__MODULE__.{AccountsTypes, MenuTypes, OrderingTypes})
 
   query do
     import_fields(:menu_queries)
@@ -25,6 +25,7 @@ defmodule PlateSlateWeb.Schema do
   end
 
   mutation do
+    import_fields(:accounts_mutations)
     import_fields(:menu_mutations)
     import_fields(:ordering_mutations)
   end
