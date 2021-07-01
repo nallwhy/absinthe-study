@@ -1,6 +1,7 @@
 defmodule PlateSlateWeb.Schema.MenuTypes do
   use Absinthe.Schema.Notation
   alias PlateSlateWeb.Resolvers
+  alias PlateSlateWeb.Schema.Middleware
 
   import_types(Absinthe.Type.Custom, only: [:decimal])
 
@@ -83,6 +84,7 @@ defmodule PlateSlateWeb.Schema.MenuTypes do
       arg(:input, non_null(:menu_item_input))
 
       resolve(&Resolvers.Menu.create_item/3)
+      middleware(Middleware.ChangesetErrors)
     end
   end
 
