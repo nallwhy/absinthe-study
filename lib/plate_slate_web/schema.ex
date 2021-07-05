@@ -2,6 +2,10 @@ defmodule PlateSlateWeb.Schema do
   use Absinthe.Schema
   alias PlateSlateWeb.Schema.Middleware
 
+  def plugins() do
+    [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+  end
+
   def middleware(middleware, field, object) do
     middleware
     |> apply(:errors, field, object)
@@ -27,6 +31,17 @@ defmodule PlateSlateWeb.Schema do
 
   defp apply(middleware, _name, _field, _object) do
     middleware
+  end
+
+  def dataloader() do
+    alias PlateSlate.Menu
+
+    Dataloader.new()
+    |> Dataloader.add_source(Menu, Menu.data())
+  end
+
+  def context(ctx) do
+    Map.put(ctx, :loader, dataloader())
   end
 
   import_types(__MODULE__.{AccountsTypes, MenuTypes, OrderingTypes})
