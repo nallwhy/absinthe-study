@@ -30,7 +30,7 @@ defmodule PlateSlateWeb.Schema.Subscription.NewOrderTest do
     user = Factory.create_user("employee")
     ref = push_doc(socket, @login, variables: %{"email" => user.email, "role" => "EMPLOYEE"})
 
-    assert_reply ref, :ok, %{data: %{"login" => %{"token" => _}}}, 1000
+    assert_reply ref, :ok, %{data: %{"login" => %{"token" => _}}}
 
     # setup a subscription
     ref = push_doc(socket, @subscription)
