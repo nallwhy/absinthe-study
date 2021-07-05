@@ -9,6 +9,12 @@ defmodule PlateSlateWeb.Schema.AccountsTypes do
       arg(:role, non_null(:role))
 
       resolve(&Resolvers.Accounts.login/3)
+
+      middleware(fn res, _ ->
+        with %{value: %{user: user}} <- res do
+          %{res | context: Map.put(res.context, :current_user, user)}
+        end
+      end)
     end
   end
 
