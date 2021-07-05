@@ -22,7 +22,7 @@ defmodule PlateSlateWeb.Schema do
   end
 
   defp apply(middleware, :debug, _field, _object) do
-    if System.get_env("DEBUG") do
+    if System.get_env("DEBUG") == "true" do
       [{Middleware.Debug, :start}] ++ middleware
     else
       middleware
