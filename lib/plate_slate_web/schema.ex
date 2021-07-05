@@ -22,6 +22,7 @@ defmodule PlateSlateWeb.Schema do
   query do
     import_fields(:menu_queries)
     import_fields(:search_queries)
+    import_fields(:accounts_queries)
   end
 
   mutation do
