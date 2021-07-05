@@ -1,4 +1,5 @@
 defmodule PlateSlateWeb.Resolvers.Menu do
+  import Absinthe.Resolution.Helpers, only: [async: 1]
   alias PlateSlate.Menu
 
   def menu_items(_, args, _) do
@@ -12,9 +13,11 @@ defmodule PlateSlateWeb.Resolvers.Menu do
   end
 
   def category_for_menu_item(menu_item, _, _) do
-    query = Ecto.assoc(menu_item, :category)
+    async(fn ->
+      query = Ecto.assoc(menu_item, :category)
 
-    {:ok, PlateSlate.Repo.one(query)}
+      {:ok, PlateSlate.Repo.one(query)}
+    end)
   end
 
   def search(_, %{matching: term}, _) do
