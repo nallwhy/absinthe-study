@@ -2,18 +2,19 @@ defmodule PlateSlateWeb.Router do
   use PlateSlateWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
+    plug(PlateSlateWeb.Context)
   end
 
   scope "/" do
-    pipe_through :api
+    pipe_through(:api)
 
-    forward "/api", Absinthe.Plug, schema: PlateSlateWeb.Schema
+    forward("/api", Absinthe.Plug, schema: PlateSlateWeb.Schema)
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
+    forward("/graphiql", Absinthe.Plug.GraphiQL,
       schema: PlateSlateWeb.Schema,
-      socket: PlateSlateWeb.UserSocket,
-      interface: :simple
+      socket: PlateSlateWeb.UserSocket
+    )
   end
 
   # Enables LiveDashboard only for development
@@ -27,8 +28,8 @@ defmodule PlateSlateWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: PlateSlateWeb.Telemetry
+      pipe_through([:fetch_session, :protect_from_forgery])
+      live_dashboard("/dashboard", metrics: PlateSlateWeb.Telemetry)
     end
   end
 end
