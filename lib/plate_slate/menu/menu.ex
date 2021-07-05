@@ -8,6 +8,15 @@ defmodule PlateSlate.Menu do
     Repo.all(Category)
   end
 
+  def list_categories_by_id(_, ids) do
+    Category
+    |> where([c], c.id in ^Enum.uniq(ids))
+    |> Repo.all()
+    |> Map.new(fn category ->
+      {category.id, category}
+    end)
+  end
+
   def get_category!(id) do
     Repo.get!(Category, id)
   end
