@@ -26,7 +26,14 @@ defmodule PlateSlateWeb.Schema.OrderingTypes do
 
   object :ordering_subscriptions do
     field :new_order, :order do
-      config(fn _args, _info -> {:ok, topic: "*"} end)
+      config(fn _args, %{context: context} ->
+        case context[:current_user] do
+          %{role: "customer", id: id} -> {:ok, topic: id}
+          %{role: "employee"} -> {:ok, topic: "*"}
+          _ -> {:error, "unauthorized"}
+        end
+      end)
+
       # resolve(fn root, _, _ -> {:ok, root} end)
     end
 

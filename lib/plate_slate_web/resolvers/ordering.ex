@@ -12,7 +12,10 @@ defmodule PlateSlateWeb.Resolvers.Ordering do
       end
 
     with {:ok, order} <- Ordering.create_order(place_order_input) do
-      Absinthe.Subscription.publish(PlateSlateWeb.Endpoint, order, new_order: "*")
+      Absinthe.Subscription.publish(PlateSlateWeb.Endpoint, order,
+        new_order: [order.customer_id, "*"]
+      )
+
       {:ok, %{order: order}}
     end
   end
